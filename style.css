@@ -185,6 +185,7 @@ h2 {
   border-radius: var(--radius);
   padding: 22px;
   box-shadow: 0 8px 24px rgba(31, 41, 51, 0.04);
+  gap: 12px;
 }
 
 .card h3 {
@@ -207,6 +208,7 @@ h2 {
   color: var(--warning);
   font-size: 13px;
   font-weight: 650;
+  margin-bottom: 4px;
 }
 
 .status.ok {
