@@ -1,0 +1,10 @@
+# venv
+.venv/
+venv/
+env/
+
+# OS/editor
+.DS_Store
+.idea/
+.vscode/
+
