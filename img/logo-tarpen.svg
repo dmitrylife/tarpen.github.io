@@ -1,0 +1,7 @@
+<svg width="220" height="64" viewBox="0 0 220 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="1" y="1" width="218" height="62" rx="14" stroke="#5F6F52" stroke-width="2"></rect>
+  <path d="M24 42C38 28 52 28 66 42" stroke="#5F6F52" stroke-width="3" stroke-linecap="round"></path>
+  <path d="M45 22V42" stroke="#5F6F52" stroke-width="3" stroke-linecap="round"></path>
+  <text x="82" y="31" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" letter-spacing="2" fill="#38462F">TARPEN</text>
+  <text x="84" y="47" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="500" letter-spacing="1.2" fill="#5F6F52">PUBLIC RECORD</text>
+</svg>
