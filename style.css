@@ -168,7 +168,6 @@ h2 {
 }
 
 .section-note {
-  margin: 6px 0 0;
   color: var(--muted);
   max-width: 680px;
 }
