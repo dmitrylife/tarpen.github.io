@@ -1,10 +1,35 @@
-# venv
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments
 .venv/
 venv/
 env/
 
-# OS/editor
+# OS / Editor
 .DS_Store
+Thumbs.db
 .idea/
 .vscode/
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.swp
+
+# Build / cache
+.cache/
+dist/
+build/
+
+# Node (если вдруг будет фронт)
+node_modules/
+
+# Secrets
+.env
+.env.*
 
