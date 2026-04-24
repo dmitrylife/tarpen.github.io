@@ -301,47 +301,6 @@ footer {
 }
 
 
-/* dark-mode */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #11140f;
-    --paper: #181d16;
-    --text: #e8eadf;
-    --muted: #a8b0a0;
-    --line: #2c3528;
-    --accent: #9caf88;
-    --accent-dark: #c8d8b8;
-    --soft: #1f271c;
-    --warning: #d8ad6a;
-    --shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
-  }
-
-  .hero {
-    background: linear-gradient(135deg, #181d16 0%, #202719 100%);
-  }
-
-  .notice {
-    background: #201b12;
-    border-color: #4a3921;
-    color: #ead7b8;
-  }
-
-  a {
-    color: var(--accent-dark);
-  }
-
-  .button {
-    background: var(--accent-dark);
-    color: #11140f;
-  }
-
-  .button.secondary {
-    background: transparent;
-    color: var(--accent-dark);
-    border-color: var(--accent-dark);
-  }
-}
-
 /* плавное появление блоков */
 
 .hero,
