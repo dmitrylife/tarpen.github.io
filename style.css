@@ -498,3 +498,44 @@ footer {
   }
 }
 
+
+a.brand {
+  color: inherit;
+  border-bottom: none;
+}
+
+a.brand:hover {
+  border-bottom: none;
+}
+
+.case-status dl {
+  margin: 0;
+}
+
+.case-status dl > div {
+  display: grid;
+  grid-template-columns: minmax(170px, 220px) 1fr;
+  gap: 18px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.case-status dl > div:last-child {
+  border-bottom: none;
+}
+
+.case-status dt {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.case-status dd {
+  margin: 0;
+}
+
+@media (max-width: 620px) {
+  .case-status dl > div {
+    grid-template-columns: 1fr;
+    gap: 3px;
+  }
+}

@@ -1,0 +1,186 @@
+---
+layout: default
+---
+
+<article class="case-page">
+
+  <section class="hero">
+    <div class="eyebrow">
+      {{ page.settlement }}
+      {% if page.location %}
+        · {{ page.location }}
+      {% endif %}
+    </div>
+
+    <h1>{{ page.title }}</h1>
+
+    <p class="lead">
+      {{ page.summary }}
+    </p>
+
+    <span class="status">
+      {{ page.status }}
+    </span>
+  </section>
+
+  <section class="section">
+    <h2>Описание ситуации</h2>
+    {{ content }}
+  </section>
+
+  {% if page.findings %}
+  <section class="section">
+    <h2>Зафиксированные признаки</h2>
+
+    <ul>
+      {% for finding in page.findings %}
+        <li>{{ finding }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  {% if page.photos %}
+  <section class="section">
+    <h2>Фотоматериалы</h2>
+
+    <div class="photo-grid">
+      {% for photo in page.photos %}
+        <figure>
+          <a href="{{ photo.src }}" target="_blank">
+            <img
+              src="{{ photo.src }}"
+              alt="{{ photo.alt | escape }}"
+              loading="lazy"
+            >
+          </a>
+
+          <figcaption>
+            {{ photo.caption }}
+          </figcaption>
+        </figure>
+      {% endfor %}
+    </div>
+
+    {% if page.archive_url %}
+      <p>
+        <a href="{{ page.archive_url }}"
+           target="_blank"
+           rel="noopener noreferrer">
+          Открыть полный архив оригинальных фотоматериалов
+        </a>
+      </p>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  <section class="section">
+    <h2>Документы</h2>
+
+    <div class="grid">
+
+      {% if page.document %}
+      <article class="card">
+        <h3>Обращение</h3>
+        <p>Текст направленного обращения.</p>
+
+        <a href="{{ page.document }}" target="_blank">
+          Открыть обращение
+        </a>
+      </article>
+      {% endif %}
+
+      {% if page.inventory %}
+      <article class="card">
+        <h3>Опись вложения</h3>
+        <p>Подтверждение содержания почтового отправления.</p>
+
+        <a href="{{ page.inventory }}" target="_blank">
+          Открыть опись
+        </a>
+      </article>
+      {% endif %}
+
+      {% if page.response %}
+      <article class="card">
+        <h3>Ответ администрации</h3>
+        <p>Официальный ответ по обращению.</p>
+
+        <a href="{{ page.response }}" target="_blank">
+          Открыть ответ
+        </a>
+      </article>
+      {% endif %}
+
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Статус</h2>
+
+    <div class="card case-status">
+      <dl>
+
+        <div>
+          <dt>Дата фиксации</dt>
+          <dd>{{ page.date_fixed | date: "%d.%m.%Y" }}</dd>
+        </div>
+
+        {% if page.date_sent %}
+        <div>
+          <dt>Обращение направлено</dt>
+          <dd>{{ page.date_sent | date: "%d.%m.%Y" }}</dd>
+        </div>
+        {% endif %}
+
+        {% if page.delivery_status %}
+        <div>
+          <dt>Доставка</dt>
+          <dd>{{ page.delivery_status }}</dd>
+        </div>
+        {% endif %}
+
+        {% if page.answer_deadline %}
+        <div>
+          <dt>Контрольная дата</dt>
+          <dd>{{ page.answer_deadline | date: "%d.%m.%Y" }}</dd>
+        </div>
+        {% endif %}
+
+        <div>
+          <dt>Текущий статус</dt>
+          <dd>{{ page.status }}</dd>
+        </div>
+
+        {% if page.incoming_number %}
+        <div>
+          <dt>Входящий номер</dt>
+          <dd>{{ page.incoming_number }}</dd>
+        </div>
+        {% endif %}
+
+      </dl>
+    </div>
+  </section>
+
+  {% if page.timeline %}
+  <section class="section">
+    <h2>Хронология кейса</h2>
+
+    <div class="timeline">
+      {% assign events = page.timeline | sort: "date" | reverse %}
+
+      {% for event in events %}
+        <div class="timeline-item">
+          <div class="date">
+            {{ event.date | date: "%d.%m.%Y" }}
+          </div>
+
+          <div>{{ event.text }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+</article>

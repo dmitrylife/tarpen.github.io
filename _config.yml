@@ -1,0 +1,23 @@
+title: Tarpen
+description: Общественный архив состояния территории
+url: "https://www.tarpen.ru"
+baseurl: ""
+
+lang: ru
+timezone: Europe/Kaliningrad
+
+collections:
+  cases:
+    output: true
+    permalink: /cases/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: cases
+    values:
+      layout: case
+
+exclude:
+  - README.md
+  - LICENSE
