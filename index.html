@@ -1,174 +1,75 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Tarpen — общественный архив состояния инфраструктуры, благоустройства и среды посёлка Тушино Неманского муниципального округа Калининградской области.">
-  <title>Tarpen — общественный архив посёлка Тушино</title>
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="stylesheet" href="style.css">
-</head>
+---
+layout: default
+---
 
-<body>
-  <div class="page">
-    <header>
-      <div class="brand">
-        <div class="brand-title">Tarpen</div>
-        <div class="brand-subtitle">общественный архив посёлка Тушино</div>
-      </div>
-
-      <nav aria-label="Основная навигация">
-        <a href="#problems">Проблемы</a>
-        <a href="#timeline">Хронология</a>
-        <a href="#documents">Документы</a>
-        <a href="#principles">Принципы</a>
-      </nav>
-    </header>
-
-    <main>
-      <section class="hero">
-        <div class="eyebrow">Тушино · Неманский муниципальный округ · Калининградская область</div>
-        <h1>Документальная фиксация состояния территории</h1>
-        <p class="lead">
-          Tarpen — общественный архив фото-, видео- и документальной фиксации состояния инфраструктуры,
-          благоустройства и природной среды посёлка Тушино.
-        </p>
-        <p>
-          Цель сайта — спокойно и последовательно фиксировать факты, обращения, ответы органов власти
-          и фактическое состояние объектов. Без голословных обвинений. Только документы, даты и материалы наблюдения.
-        </p>
-        <div class="hero-actions">
-          <a class="button" href="#problems">Смотреть зафиксированные проблемы</a>
-          <a class="button secondary" href="#timeline">Хронология обращений</a>
-        </div>
-      </section>
-
-      <section id="problems" class="section">
-        <div class="section-head">
-          <div>
-            <h2>Зафиксированные вопросы</h2>
-            <p class="section-note">Каждый раздел содержит описание, материалы фиксации, обращения и текущий статус.</p>
-          </div>
-        </div>
-
-        <div class="grid">
-          <article class="card">
-            <span class="status">Обращение направлено</span>
-            <h3>Мост на ул. Речная</h3>
-            <p>
-              Зафиксированы признаки размыва грунта, разрушения бетонных элементов и риска дальнейшего повреждения мостового сооружения.
-            </p>
-            <a href="docs/bridge/">Открыть материалы</a>
-          </article>
-
-          <article class="card">
-            <span class="status">Обращение направлено</span>
-            <h3>Нарушение проезда</h3>
-            <p>
-              В районе дома №1 на ул. Речной траншея после работ по отводу воды препятствует проходу и проезду внутри посёлка.
-            </p>
-            <a href="docs/road-access/">Открыть материалы</a>
-          </article>
-
-          <article class="card">
-            <span class="status">Обращение подготовлено</span>
-            <h3>Вырубка деревьев</h3>
-            <p>
-              Зафиксированы факты спиливания придорожных деревьев вдоль поселковой дороги, включая ивы.
-            </p>
-            <a href="docs/trees/">Открыть материалы</a>
-          </article>
-        </div>
-      </section>
-      
-      <section id="timeline" class="section">
-        <h2>Хронология</h2>
-        <p class="section-note">Краткая последовательность действий и фиксаций.</p>
-
-        <div class="timeline">
-
-          <div class="timeline-item">
-            <div class="date">23.04.2026</div>
-            <div>Обращение по нарушению транспортной и пешеходной доступности направлено почтовым отправлением с описью вложения.</div>
-          </div>
-
-          <div class="timeline-item">
-            <div class="date">23.04.2026</div>
-            <div>Обращение по мосту направлено почтовым отправлением с описью вложения.</div>
-          </div>
-
-          <div class="timeline-item">
-            <div class="date">22.04.2026</div>
-            <div>Подготовлено обращение по фактам самовольной вырубки придорожных деревьев на ул. Речной.</div>
-          </div>
-
-          <div class="timeline-item">
-            <div class="date">22.04.2026</div>
-            <div>Подготовлено обращение о нарушении транспортной и пешеходной доступности на ул. Речной.</div>
-          </div>
-
-          <div class="timeline-item">
-            <div class="date">22.04.2026</div>
-            <div>Подготовлено обращение об аварийном состоянии мостового сооружения на ул. Речной.</div>
-          </div>
-
-        </div>
-      </section>
-
-      <section id="documents" class="section">
-        <h2>Документы и материалы</h2>
-        <p class="section-note">
-          В этом разделе размещаются тексты обращений, фотоматериалы, видеоматериалы и ответы органов власти после их получения.
-        </p>
-
-        <div class="grid">
-          <article class="card">
-            <h3>Обращения</h3>
-            <p>PDF-документы направленных обращений с датами и статусами рассмотрения.</p>
-            <a href="documents.html">Перейти к документам</a>
-          </article>
-          <article class="card">
-            <h3>Фото и видео</h3>
-            <p>Материалы фиксации состояния объектов и территории.</p>
-            <a href="photos.html">Перейти к материалам</a>
-          </article>
-          <article class="card">
-            <h3>Ответы</h3>
-            <p>Официальные ответы и фактическое исполнение после их получения.</p>
-            <a href="responses.html">Перейти к ответам</a>
-          </article>
-        </div>
-      </section>
-
-      <section id="principles" class="section principles">
-        <div class="card">
-          <h2>Принципы публикации</h2>
-          <ul class="principle-list">
-            <li>Публикуются только факты, даты, документы и материалы фиксации.</li>
-            <li>Оценки формулируются аккуратно: «имеются признаки», «зафиксировано», «направлено обращение».</li>
-            <li>Персональные данные частных лиц не публикуются.</li>
-            <li>Цель сайта — общественный контроль и сохранение среды, а не обвинения.</li>
-          </ul>
-        </div>
-
-        <div class="notice">
-          <h2>Правовой и общественный смысл</h2>
-          <p>
-            Сайт является открытым архивом наблюдений и обращений по вопросам содержания территории,
-            инфраструктуры и благоустройства посёлка Тушино. Материалы могут использоваться для подтверждения
-            факта обращения, отслеживания сроков реакции и подготовки последующих обращений в надзорные органы.
-          </p>
-        </div>
-      </section>
-    </main>
-
-    <footer>
-      <p>
-        Tarpen · общественный архив посёлка Тушино. Материалы публикуются в целях фиксации состояния территории,
-        инфраструктуры и благоустройства.
-      </p>
-    </footer>
+<section class="hero">
+  <div class="eyebrow">Тушино · Неманский муниципальный округ · Калининградская область</div>
+  <h1>Документальная фиксация состояния территории</h1>
+  <p class="lead">Tarpen — общественный архив фото-, видео- и документальной фиксации состояния инфраструктуры, благоустройства и природной среды.</p>
+  <p>Цель сайта — последовательно фиксировать факты, обращения, официальные ответы и фактические изменения на объектах. Без голословных обвинений: документы, даты и материалы наблюдения.</p>
+  <div class="hero-actions">
+    <a class="button" href="#problems">Смотреть кейсы</a>
+    <a class="button secondary" href="#timeline">Общая хронология</a>
   </div>
-</body>
-</html>
+</section>
+
+<section id="problems" class="section">
+  <div class="section-head">
+    <div>
+      <h2>Зафиксированные вопросы</h2>
+      <p class="section-note">Каждый кейс содержит исходную фиксацию, обращения, ответы при их наличии, повторные наблюдения и фактический результат.</p>
+    </div>
+  </div>
+
+  <div class="grid">
+    {% assign cases = site.cases | sort: "classification.order" %}
+    {% for case in cases %}
+      <article class="card">
+        {% if case.case_status %}
+          <span class="status{% if case.case_status.code == 'resolved' %} ok{% endif %}">{{ case.case_status.label }}</span>
+        {% elsif case.status %}
+          <span class="status">{{ case.status }}</span>
+        {% endif %}
+        <h3>{{ case.title }}</h3>
+        <p>{{ case.summary }}</p>
+        <a href="{{ case.url }}">Открыть кейс</a>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section id="timeline" class="section">
+  <h2>Хронология</h2>
+  <p class="section-note">Последние зафиксированные события по опубликованным кейсам.</p>
+  <div class="timeline">
+    {% assign all_events = "" | split: "" %}
+    {% for case in site.cases %}
+      {% for event in case.timeline %}
+        {% assign all_events = all_events | push: event %}
+      {% endfor %}
+    {% endfor %}
+    {% assign all_events = all_events | sort: "date" | reverse %}
+    {% for event in all_events %}
+      <div class="timeline-item">
+        <div class="date">{{ event.date | date: "%d.%m.%Y" }}</div>
+        <div>{{ event.text }}</div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section id="principles" class="section principles">
+  <div class="card">
+    <h2>Принципы публикации</h2>
+    <ul class="principle-list">
+      <li>Публикуются факты, даты, документы и материалы фиксации.</li>
+      <li>Официальный ответ и фактическое состояние проблемы учитываются раздельно.</li>
+      <li>Если содержание документа неизвестно, оно не реконструируется.</li>
+      <li>Персональные данные частных лиц не публикуются.</li>
+    </ul>
+  </div>
+  <div class="notice">
+    <h2>Как устроен Tarpen</h2>
+    <p>Один кейс соответствует одной реальной проблеме. Внутри него сохраняются доказательства исходного состояния, взаимодействия с органами власти, официальные ответы и последующие наблюдения. Это позволяет видеть не только переписку, но и фактический результат.</p>
+  </div>
+</section>
