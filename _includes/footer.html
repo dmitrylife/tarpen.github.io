@@ -1,7 +1,20 @@
+{% assign latest_update = nil %}
+{% for case in site.cases %}
+  {% if case.publication and case.publication.updated %}
+    {% assign case_updated = case.publication.updated | date: "%s" %}
+    {% if latest_update == nil or case_updated > latest_update %}
+      {% assign latest_update = case_updated %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
 <footer>
   <p>
     Tarpen · общественный архив состояния территории.
     Материалы публикуются в целях фиксации фактов,
     обращений и результатов их рассмотрения.
   </p>
+  {% if latest_update %}
+    <p>Последнее обновление архива: {{ latest_update | date: "%d.%m.%Y" }}</p>
+  {% endif %}
 </footer>
