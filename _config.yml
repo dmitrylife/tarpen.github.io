@@ -20,6 +20,7 @@ defaults:
 
 exclude:
   - README.md
+  - MANUAL.md
   - LICENSE
   - vendor
   - Gemfile
