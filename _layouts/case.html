@@ -62,7 +62,11 @@ layout: default
           <span class="status">{{ interaction_status | strip }}</span>
           <h3>{{ item.title }}</h3>
           {% if item.authority %}<p><strong>Адресат:</strong> {{ item.authority }}</p>{% endif %}
-          {% if item.created %}<p><strong>Дата:</strong> {{ item.created | date: "%d.%m.%Y" }}</p>{% endif %}
+          {% if item.submitted %}
+            <p><strong>Направлено:</strong> {{ item.submitted | date: "%d.%m.%Y" }}</p>
+          {% elsif item.created %}
+            <p><strong>Подготовлено:</strong> {{ item.created | date: "%d.%m.%Y" }}</p>
+          {% endif %}
           {% if item.channel %}
             <p><strong>Канал:</strong> {% case item.channel %}{% when 'russian-post' %}Почта России{% when 'gosuslugi' %}Госуслуги{% when 'email' %}Электронная почта{% when 'web-form' %}Электронная приёмная{% when 'personal' %}Личный приём{% else %}{{ item.channel }}{% endcase %}</p>
           {% endif %}
