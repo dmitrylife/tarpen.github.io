@@ -3,24 +3,15 @@ layout: default
 ---
 
 <article class="case-page">
-
   <section class="hero">
     <div class="eyebrow">
-      {{ page.settlement }}
-      {% if page.location %}
-        · {{ page.location }}
-      {% endif %}
+      {{ page.location.settlement }}{% if page.location.address %} · {{ page.location.address }}{% endif %}
     </div>
-
     <h1>{{ page.title }}</h1>
-
-    <p class="lead">
-      {{ page.summary }}
-    </p>
-
-    <span class="status">
-      {{ page.status }}
-    </span>
+    <p class="lead">{{ page.summary }}</p>
+    {% if page.case_status %}
+      <span class="status{% if page.case_status.code == 'resolved' %} ok{% endif %}">{{ page.case_status.label }}</span>
+    {% endif %}
   </section>
 
   <section class="section">
@@ -30,157 +21,122 @@ layout: default
 
   {% if page.findings %}
   <section class="section">
-    <h2>Зафиксированные признаки</h2>
-
+    <h2>Исходная фиксация</h2>
     <ul>
-      {% for finding in page.findings %}
-        <li>{{ finding }}</li>
-      {% endfor %}
+      {% for finding in page.findings %}<li>{{ finding }}</li>{% endfor %}
     </ul>
   </section>
   {% endif %}
 
-  {% if page.photos %}
+  {% if page.evidence and page.evidence.photos %}
   <section class="section">
-    <h2>Фотоматериалы</h2>
-
+    <h2>Фотоматериалы исходного состояния</h2>
     <div class="photo-grid">
-      {% for photo in page.photos %}
-        <figure>
-          <a href="{{ photo.src }}" target="_blank">
-            <img
-              src="{{ photo.src }}"
-              alt="{{ photo.alt | escape }}"
-              loading="lazy"
-            >
-          </a>
-
-          <figcaption>
-            {{ photo.caption }}
-          </figcaption>
-        </figure>
+      {% for photo in page.evidence.photos %}
+      <figure>
+        <a href="{{ photo.src }}" target="_blank"><img src="{{ photo.src }}" alt="{{ photo.alt | escape }}" loading="lazy"></a>
+        <figcaption>{{ photo.caption }}</figcaption>
+      </figure>
       {% endfor %}
     </div>
-
-    {% if page.archive_url %}
-      <p>
-        <a href="{{ page.archive_url }}"
-           target="_blank"
-           rel="noopener noreferrer">
-          Открыть полный архив оригинальных фотоматериалов
-        </a>
-      </p>
+    {% if page.evidence.archive_url %}
+      <p><a href="{{ page.evidence.archive_url }}" target="_blank" rel="noopener noreferrer">Открыть полный архив оригинальных материалов</a></p>
     {% endif %}
   </section>
   {% endif %}
 
+  {% if page.interactions %}
   <section class="section">
-    <h2>Документы</h2>
-
-    <div class="grid">
-
-      {% if page.document %}
-      <article class="card">
-        <h3>Обращение</h3>
-        <p>Текст направленного обращения.</p>
-
-        <a href="{{ page.document }}" target="_blank">
-          Открыть обращение
-        </a>
-      </article>
-      {% endif %}
-
-      {% if page.inventory %}
-      <article class="card">
-        <h3>Опись вложения</h3>
-        <p>Подтверждение содержания почтового отправления.</p>
-
-        <a href="{{ page.inventory }}" target="_blank">
-          Открыть опись
-        </a>
-      </article>
-      {% endif %}
-
-      {% if page.response %}
-      <article class="card">
-        <h3>Ответ администрации</h3>
-        <p>Официальный ответ по обращению.</p>
-
-        <a href="{{ page.response }}" target="_blank">
-          Открыть ответ
-        </a>
-      </article>
-      {% endif %}
-
+    <h2>Обращения и взаимодействия</h2>
+    <div class="interaction-list">
+      {% for item in page.interactions %}
+        {% capture interaction_status %}
+          {% if item.responses and item.responses.size > 0 %}Получен официальный ответ
+          {% elsif item.confirmation and item.confirmation.value %}{% if item.channel == 'gosuslugi' %}Зарегистрировано{% else %}Отправлено{% endif %}
+          {% elsif item.inventory_url %}Подготовлено к отправке
+          {% elsif item.document_url %}Обращение подготовлено
+          {% else %}Зафиксировано{% endif %}
+        {% endcapture %}
+        <article class="card interaction-card">
+          <span class="status">{{ interaction_status | strip }}</span>
+          <h3>{{ item.title }}</h3>
+          {% if item.authority %}<p><strong>Адресат:</strong> {{ item.authority }}</p>{% endif %}
+          {% if item.created %}<p><strong>Дата:</strong> {{ item.created | date: "%d.%m.%Y" }}</p>{% endif %}
+          {% if item.channel %}
+            <p><strong>Канал:</strong> {% case item.channel %}{% when 'russian-post' %}Почта России{% when 'gosuslugi' %}Госуслуги{% when 'email' %}Электронная почта{% when 'web-form' %}Электронная приёмная{% when 'personal' %}Личный приём{% else %}{{ item.channel }}{% endcase %}</p>
+          {% endif %}
+          <div class="document-links">
+            {% if item.document_url %}<a href="{{ item.document_url }}" target="_blank">Открыть обращение</a>{% endif %}
+            {% if item.inventory_url %}<a href="{{ item.inventory_url }}" target="_blank">Открыть опись</a>{% endif %}
+          </div>
+          {% if item.confirmation and item.confirmation.value %}<p><strong>Подтверждение:</strong> {{ item.confirmation.value }}</p>{% endif %}
+          {% if item.note %}<div class="interaction-note">{{ item.note }}</div>{% endif %}
+          {% if item.responses and item.responses.size > 0 %}
+            <div class="responses">
+              <h4>Официальные ответы</h4>
+              {% for response in item.responses %}
+                <div class="response-item">
+                  {% if response.date %}<strong>{{ response.date | date: "%d.%m.%Y" }}</strong>{% endif %}
+                  {% if response.summary %}<p>{{ response.summary }}</p>{% endif %}
+                  {% if response.document_url %}<a href="{{ response.document_url }}" target="_blank">Открыть ответ</a>{% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </article>
+      {% endfor %}
     </div>
   </section>
+  {% endif %}
 
+  {% if page.observations %}
+  <section class="section result-section">
+    <h2>Результат и повторная фиксация</h2>
+    {% for observation in page.observations %}
+      <article class="card observation-card">
+        <div class="observation-date">{{ observation.date | date: "%d.%m.%Y" }}</div>
+        <h3>{{ observation.title }}</h3>
+        <p>{{ observation.summary }}</p>
+        {% if observation.photos %}
+          <div class="photo-grid result-photos">
+            {% for photo in observation.photos %}
+              <figure>
+                <a href="{{ photo.src }}" target="_blank"><img src="{{ photo.src }}" alt="{{ photo.alt | default: photo.caption | escape }}" loading="lazy"></a>
+                <figcaption>{{ photo.caption }}</figcaption>
+              </figure>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </article>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  {% if page.case_status %}
   <section class="section">
-    <h2>Статус</h2>
-
+    <h2>Текущее состояние кейса</h2>
     <div class="card case-status">
       <dl>
-
-        <div>
-          <dt>Дата фиксации</dt>
-          <dd>{{ page.date_fixed | date: "%d.%m.%Y" }}</dd>
-        </div>
-
-        {% if page.date_sent %}
-        <div>
-          <dt>Обращение направлено</dt>
-          <dd>{{ page.date_sent | date: "%d.%m.%Y" }}</dd>
-        </div>
-        {% endif %}
-
-        {% if page.delivery_status %}
-        <div>
-          <dt>Доставка</dt>
-          <dd>{{ page.delivery_status }}</dd>
-        </div>
-        {% endif %}
-
-        {% if page.answer_deadline %}
-        <div>
-          <dt>Контрольная дата</dt>
-          <dd>{{ page.answer_deadline | date: "%d.%m.%Y" }}</dd>
-        </div>
-        {% endif %}
-
-        <div>
-          <dt>Текущий статус</dt>
-          <dd>{{ page.status }}</dd>
-        </div>
-
-        {% if page.incoming_number %}
-        <div>
-          <dt>Входящий номер</dt>
-          <dd>{{ page.incoming_number }}</dd>
-        </div>
-        {% endif %}
-
+        <div><dt>Статус проблемы</dt><dd>{{ page.case_status.label }}</dd></div>
+        {% if page.case_status.updated %}<div><dt>Обновлено</dt><dd>{{ page.case_status.updated | date: "%d.%m.%Y" }}</dd></div>{% endif %}
+        {% if page.location.municipality %}<div><dt>Муниципалитет</dt><dd>{{ page.location.municipality }}</dd></div>{% endif %}
       </dl>
     </div>
   </section>
+  {% endif %}
 
   {% if page.timeline %}
   <section class="section">
     <h2>Хронология кейса</h2>
-
     <div class="timeline">
       {% assign events = page.timeline | sort: "date" | reverse %}
-
       {% for event in events %}
         <div class="timeline-item">
-          <div class="date">
-            {{ event.date | date: "%d.%m.%Y" }}
-          </div>
-
+          <div class="date">{{ event.date | date: "%d.%m.%Y" }}</div>
           <div>{{ event.text }}</div>
         </div>
       {% endfor %}
     </div>
   </section>
   {% endif %}
-
 </article>
