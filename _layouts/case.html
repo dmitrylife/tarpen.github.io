@@ -53,6 +53,7 @@ layout: default
         {% capture interaction_status %}
           {% if item.responses and item.responses.size > 0 %}Получен официальный ответ
           {% elsif item.confirmation and item.confirmation.value %}{% if item.channel == 'gosuslugi' %}Зарегистрировано{% else %}Отправлено{% endif %}
+          {% elsif item.submitted %}Отправлено
           {% elsif item.inventory_url %}Подготовлено к отправке
           {% elsif item.document_url %}Обращение подготовлено
           {% else %}Зафиксировано{% endif %}

@@ -60,6 +60,7 @@ interactions:
     authority: Администрация Неманского муниципального округа
     channel: russian-post
     created: "2026-04-22"
+    submitted: "2026-04-23"
     document_url: /docs/bridge/files/obrashchenie-most.pdf
     inventory_url: /docs/bridge/files/opis-most.pdf
     note: >

@@ -34,3 +34,5 @@ node_modules/
 .env.*
 
 vendor/
+.bundle/
+_site/
