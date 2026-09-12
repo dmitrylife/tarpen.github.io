@@ -1,35 +1,140 @@
+---
+---
 <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ответы — Tarpen</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Ответы и результаты — Tarpen</title>
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <div class="page">
   <header>
-    <div class="brand">
+    <a class="brand" href="/">
       <div class="brand-title">Tarpen</div>
       <div class="brand-subtitle">общественный архив посёлка Тушино</div>
-    </div>
+    </a>
     <nav><a href="/">Главная</a></nav>
   </header>
 
   <main>
     <section class="hero">
-      <div class="eyebrow">Ответы</div>
-      <h1>Ответы органов власти</h1>
-      <p class="lead">Здесь будут размещаться официальные ответы и информация о фактическом исполнении.</p>
+      <div class="eyebrow">Ответы и результаты</div>
+      <h1>Ответы органов власти и фактическое состояние</h1>
+      <p class="lead">
+        Официальные ответы публикуются отдельно от наблюдаемого результата.
+        Документы подтверждают движение обращения, а фактические изменения определяют состояние проблемы.
+      </p>
     </section>
 
+    {% assign cases = site.cases | sort: "classification.order" %}
+    {% assign response_count = 0 %}
+    {% assign observation_count = 0 %}
+
+    {% for case in cases %}
+      {% if case.interactions %}
+        {% for item in case.interactions %}
+          {% if item.responses %}
+            {% assign response_count = response_count | plus: item.responses.size %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+      {% if case.observations %}
+        {% assign observation_count = observation_count | plus: case.observations.size %}
+      {% endif %}
+    {% endfor %}
+
     <section class="section">
-      <div class="notice">
-        <h2>Ответы пока не получены</h2>
-        <p>
-          После получения официальных ответов они будут размещены в этом разделе
-          с указанием даты, краткого содержания и текущего статуса исполнения.
-        </p>
+      <div class="section-head">
+        <div>
+          <h2>Официальные ответы</h2>
+          <p class="section-note">
+            Здесь размещаются только ответы, содержание которых имеется в архиве и может быть опубликовано без реконструкции.
+          </p>
+        </div>
+      </div>
+
+      {% if response_count > 0 %}
+        <div class="interaction-list">
+          {% for case in cases %}
+            {% if case.interactions %}
+              {% for item in case.interactions %}
+                {% if item.responses and item.responses.size > 0 %}
+                  {% for response in item.responses %}
+                    <article class="card interaction-card">
+                      <span class="status ok">Официальный ответ</span>
+                      <h3>{{ response.title | default: item.title | default: case.title }}</h3>
+                      <p><strong>{{ case.title }}</strong></p>
+                      {% if response.date %}<p>Дата ответа: {{ response.date | date: "%d.%m.%Y" }}</p>{% endif %}
+                      {% if response.authority %}
+                        <p>{{ response.authority }}</p>
+                      {% elsif item.authority %}
+                        <p>{{ item.authority }}</p>
+                      {% endif %}
+                      {% if response.summary %}<p>{{ response.summary }}</p>{% endif %}
+                      <div class="document-links">
+                        {% if response.document_url %}
+                          <a href="{{ response.document_url }}" target="_blank" rel="noopener">Открыть ответ</a>
+                        {% endif %}
+                        <a href="{{ case.url }}">Открыть карточку вопроса</a>
+                      </div>
+                    </article>
+                  {% endfor %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="notice">
+          <h2>Тексты официальных ответов пока не опубликованы</h2>
+          <p>
+            Если орган власти направлял ответ, но его содержание отсутствует в архиве,
+            Tarpen не пересказывает и не реконструирует такой документ.
+          </p>
+        </div>
+      {% endif %}
+    </section>
+
+    <section class="section result-section">
+      <div class="section-head">
+        <div>
+          <h2>Фактическое состояние</h2>
+          <p class="section-note">
+            Этот раздел основан на повторных фиксациях и текущем статусе каждого вопроса.
+          </p>
+        </div>
+      </div>
+
+      <div class="interaction-list">
+        {% for case in cases %}
+          <article class="card observation-card">
+            {% if case.case_status.code == 'resolved' %}
+              <span class="status ok">{{ case.case_status.label }}</span>
+            {% else %}
+              <span class="status">{{ case.case_status.label }}</span>
+            {% endif %}
+            <h3>{{ case.title }}</h3>
+            <p><strong>{{ case.location.address }}</strong></p>
+
+            {% if case.case_status.updated %}
+              <p>Статус на {{ case.case_status.updated | date: "%d.%m.%Y" }}.</p>
+            {% endif %}
+
+            {% if case.observations and case.observations.size > 0 %}
+              {% assign observations = case.observations | sort: "date" | reverse %}
+              {% assign latest = observations | first %}
+              <div class="observation-date">{{ latest.date | date: "%d.%m.%Y" }}</div>
+              <p><strong>{{ latest.title }}</strong></p>
+              {% if latest.summary %}<p>{{ latest.summary }}</p>{% endif %}
+            {% else %}
+              <p>Повторная фиксация пока не добавлена.</p>
+            {% endif %}
+
+            <p><a href="{{ case.url }}">Открыть карточку вопроса</a></p>
+          </article>
+        {% endfor %}
       </div>
     </section>
   </main>
