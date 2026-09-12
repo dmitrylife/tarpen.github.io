@@ -1,18 +1,20 @@
+---
+---
 <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Фото и видео — Tarpen</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <div class="page">
   <header>
-    <div class="brand">
+    <a class="brand" href="/">
       <div class="brand-title">Tarpen</div>
       <div class="brand-subtitle">общественный архив посёлка Тушино</div>
-    </div>
+    </a>
     <nav><a href="/">Главная</a></nav>
   </header>
 
@@ -20,33 +22,99 @@
     <section class="hero">
       <div class="eyebrow">Фото и видео</div>
       <h1>Материалы фиксации</h1>
-      <p class="lead">Фото- и видеоматериалы, подтверждающие состояние объектов и территории.</p>
+      <p class="lead">
+        Исходная фиксация и повторные наблюдения автоматически собираются из карточек вопросов.
+        Фотографии показываются вместе с датой и контекстом наблюдения.
+      </p>
     </section>
 
-    <section class="section">
-      <div class="grid">
-        <article class="card">
-          <span class="status">Фотоархив</span>
-          <h3>Мост на ул. Речная</h3>
-          <p>Фотоматериалы аварийного состояния мостового сооружения.</p>
-          <a href="https://drive.google.com/drive/folders/1aaO1e0rIGcGE54a4nhYsRdWIeM2pATlF?usp=drive_link" target="_blank">Открыть архив</a>
-        </article>
+    {% assign cases = site.cases | sort: "classification.order" %}
+    {% assign media_count = 0 %}
+    {% for case in cases %}
+      {% if case.evidence and case.evidence.archive_url %}
+        {% assign media_count = media_count | plus: 1 %}
+      {% endif %}
+      {% if case.evidence and case.evidence.photos %}
+        {% assign media_count = media_count | plus: case.evidence.photos.size %}
+      {% endif %}
+      {% if case.observations %}
+        {% for observation in case.observations %}
+          {% if observation.photos %}
+            {% assign media_count = media_count | plus: observation.photos.size %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
 
-        <article class="card">
-          <span class="status">Видео</span>
-          <h3>Нарушение проезда</h3>
-          <p>Видеоматериалы по нарушению транспортной и пешеходной доступности.</p>
-          <a href="https://drive.google.com/drive/folders/1coon_3wsl-hN7hZKWiSsKvr3cZ4yy1JZ?usp=drive_link" target="_blank">Открыть архив</a>
-        </article>
+    {% if media_count > 0 %}
+      {% for case in cases %}
+        {% assign case_has_media = false %}
+        {% if case.evidence and case.evidence.archive_url %}{% assign case_has_media = true %}{% endif %}
+        {% if case.evidence and case.evidence.photos and case.evidence.photos.size > 0 %}{% assign case_has_media = true %}{% endif %}
+        {% if case.observations %}
+          {% for observation in case.observations %}
+            {% if observation.photos and observation.photos.size > 0 %}{% assign case_has_media = true %}{% endif %}
+          {% endfor %}
+        {% endif %}
 
-        <article class="card">
-          <span class="status">Фото</span>
-          <h3>Вырубка деревьев</h3>
-          <p>Фотоматериалы по фактам вырубки придорожных деревьев.</p>
-          <a href="https://drive.google.com/drive/folders/14_nUeGvd1ajnPF_jTcCzJ658raVup1Gv?usp=sharing" target="_blank">Открыть архив</a>
-        </article>
-      </div>
-    </section>
+        {% if case_has_media %}
+          <section class="section">
+            <div class="section-head">
+              <div>
+                <h2>{{ case.title }}</h2>
+                <p class="section-note">{{ case.location.address }} · {{ case.case_status.label }}</p>
+              </div>
+              <a href="{{ case.url }}">Открыть карточку</a>
+            </div>
+
+            {% if case.evidence and case.evidence.photos and case.evidence.photos.size > 0 %}
+              <h3>Первоначальная фиксация</h3>
+              <div class="photo-grid">
+                {% for photo in case.evidence.photos %}
+                  <figure>
+                    <img src="{{ photo.src }}" alt="{{ photo.alt | escape }}" loading="lazy">
+                    {% if photo.caption %}<figcaption>{{ photo.caption }}</figcaption>{% endif %}
+                  </figure>
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            {% if case.evidence and case.evidence.archive_url %}
+              <p class="document-links">
+                <a href="{{ case.evidence.archive_url }}" target="_blank" rel="noopener">Открыть внешний архив материалов</a>
+              </p>
+            {% endif %}
+
+            {% if case.observations %}
+              {% for observation in case.observations %}
+                {% if observation.photos and observation.photos.size > 0 %}
+                  <div class="result-section section">
+                    <div class="observation-date">{{ observation.date | date: "%d.%m.%Y" }}</div>
+                    <h3>{{ observation.title }}</h3>
+                    {% if observation.summary %}<p class="section-note">{{ observation.summary }}</p>{% endif %}
+                    <div class="photo-grid result-photos">
+                      {% for photo in observation.photos %}
+                        <figure>
+                          <img src="{{ photo.src }}" alt="{{ photo.alt | escape }}" loading="lazy">
+                          {% if photo.caption %}<figcaption>{{ photo.caption }}</figcaption>{% endif %}
+                        </figure>
+                      {% endfor %}
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </section>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      <section class="section">
+        <div class="notice">
+          <h2>Материалы пока не добавлены</h2>
+          <p>После добавления фотоархива или фотографий в карточки вопросов они автоматически появятся здесь.</p>
+        </div>
+      </section>
+    {% endif %}
   </main>
 
   <footer><p>Tarpen — общественный архив состояния инфраструктуры</p></footer>
