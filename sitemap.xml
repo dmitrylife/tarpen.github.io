@@ -1,0 +1,20 @@
+---
+layout: null
+sitemap: false
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  {% for item in site.pages %}
+    {% if item.url and item.sitemap != false and item.url != '/sitemap.xml' and item.url != '/robots.txt' %}
+  <url>
+    <loc>{{ item.url | absolute_url | xml_escape }}</loc>
+  </url>
+    {% endif %}
+  {% endfor %}
+  {% for item in site.cases %}
+  <url>
+    <loc>{{ item.url | absolute_url | xml_escape }}</loc>{% if item.publication.updated %}
+    <lastmod>{{ item.publication.updated }}</lastmod>{% endif %}
+  </url>
+  {% endfor %}
+</urlset>
