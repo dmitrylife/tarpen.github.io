@@ -22,8 +22,9 @@ place_name: Тушино
   </div>
 
   <div class="grid">
-    {% assign tushino_cases = site.cases | where: "location.settlement", "Тушино" | sort: "classification.order" %}
-    {% for case in tushino_cases %}
+    {% assign sorted_cases = site.cases | sort: "classification.order" %}
+    {% for case in sorted_cases %}
+      {% if case.location.settlement == "Тушино" %}
       <article class="card">
         {% if case.case_status %}
           <span class="status{% if case.case_status.code == 'resolved' %} ok{% endif %}">{{ case.case_status.label }}</span>
@@ -32,6 +33,7 @@ place_name: Тушино
         <p>{{ case.summary }}</p>
         <a href="{{ case.url }}">Открыть кейс</a>
       </article>
+      {% endif %}
     {% endfor %}
   </div>
 </section>
