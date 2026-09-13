@@ -1,0 +1,10 @@
+<article class="card">
+  {% if include.case.case_status %}
+    <span class="status{% if include.case.case_status.code == 'resolved' %} ok{% endif %}">{{ include.case.case_status.label }}</span>
+  {% elsif include.case.status %}
+    <span class="status">{{ include.case.status }}</span>
+  {% endif %}
+  <h3>{{ include.case.title }}</h3>
+  <p>{{ include.case.summary }}</p>
+  <a href="{{ include.case.url }}">Открыть кейс</a>
+</article>
