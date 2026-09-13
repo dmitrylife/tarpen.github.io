@@ -1,0 +1,44 @@
+---
+layout: default
+title: Посёлок Тушино, Калининградская область
+description: Документальные материалы Tarpen о состоянии инфраструктуры и территории посёлка Тушино Неманского муниципального округа Калининградской области.
+permalink: /places/tushino/
+schema_type: PlacePage
+place_name: Тушино
+---
+
+<section class="hero">
+  <div class="eyebrow">Неманский муниципальный округ · Калининградская область</div>
+  <h1>Посёлок Тушино</h1>
+  <p class="lead">В общественном архиве Tarpen собраны материалы о состоянии инфраструктуры и территории посёлка Тушино: фотографии, документы, обращения и результаты повторных наблюдений.</p>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>Кейсы по территории</h2>
+      <p class="section-note">Ниже автоматически выводятся все опубликованные кейсы, относящиеся к посёлку Тушино.</p>
+    </div>
+  </div>
+
+  <div class="grid">
+    {% assign tushino_cases = site.cases | where: "location.settlement", "Тушино" | sort: "classification.order" %}
+    {% for case in tushino_cases %}
+      <article class="card">
+        {% if case.case_status %}
+          <span class="status{% if case.case_status.code == 'resolved' %} ok{% endif %}">{{ case.case_status.label }}</span>
+        {% endif %}
+        <h3>{{ case.title }}</h3>
+        <p>{{ case.summary }}</p>
+        <a href="{{ case.url }}">Открыть кейс</a>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section">
+  <div class="notice">
+    <h2>О разделе</h2>
+    <p>Tarpen (Тарпен) фиксирует фактическое состояние объектов и историю взаимодействия по каждому вопросу отдельно. Документы подтверждают движение обращения, а фактические изменения определяют состояние проблемы.</p>
+  </div>
+</section>
