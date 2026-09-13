@@ -8,7 +8,7 @@ timezone: Europe/Kaliningrad
 
 # Public feedback form. Paste the full Formspree endpoint here,
 # for example: https://formspree.io/f/xxxxxxxx
-formspree_endpoint: ""
+formspree_endpoint: "https://formspree.io/f/xjyvqolk"
 
 collections:
   cases:
