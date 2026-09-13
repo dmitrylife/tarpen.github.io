@@ -6,11 +6,14 @@
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0">
 
-  <meta name="description"
-        content="{{ page.description | default: page.summary | default: site.description | escape }}">
+  {% include seo.html %}
 
   <title>
-    {% if page.title %}
+    {% if page.collection == 'cases' and page.location.settlement %}
+      {{ page.title }} в посёлке {{ page.location.settlement }} — {{ site.title }}
+    {% elsif page.seo_title %}
+      {{ page.seo_title }}
+    {% elsif page.title %}
       {{ page.title }} — {{ site.title }}
     {% else %}
       {{ site.title }}
