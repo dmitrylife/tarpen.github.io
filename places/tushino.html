@@ -25,14 +25,7 @@ place_name: Тушино
     {% assign sorted_cases = site.cases | sort: "classification.order" %}
     {% for case in sorted_cases %}
       {% if case.location.settlement == "Тушино" %}
-      <article class="card">
-        {% if case.case_status %}
-          <span class="status{% if case.case_status.code == 'resolved' %} ok{% endif %}">{{ case.case_status.label }}</span>
-        {% endif %}
-        <h3>{{ case.title }}</h3>
-        <p>{{ case.summary }}</p>
-        <a href="{{ case.url }}">Открыть кейс</a>
-      </article>
+        {% include case-card.html case=case %}
       {% endif %}
     {% endfor %}
   </div>
