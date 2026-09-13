@@ -27,16 +27,7 @@ description: Tarpen — общественный архив состояния �
   <div class="grid">
     {% assign cases = site.cases | sort: "classification.order" %}
     {% for case in cases %}
-      <article class="card">
-        {% if case.case_status %}
-          <span class="status{% if case.case_status.code == 'resolved' %} ok{% endif %}">{{ case.case_status.label }}</span>
-        {% elsif case.status %}
-          <span class="status">{{ case.status }}</span>
-        {% endif %}
-        <h3>{{ case.title }}</h3>
-        <p>{{ case.summary }}</p>
-        <a href="{{ case.url }}">Открыть кейс</a>
-      </article>
+      {% include case-card.html case=case %}
     {% endfor %}
   </div>
 </section>
