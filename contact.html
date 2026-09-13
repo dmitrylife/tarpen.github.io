@@ -1,0 +1,115 @@
+---
+layout: default
+title: Сообщить о проблеме
+description: Передать в Tarpen сведения о проблеме территории, уточнение или материалы к существующему кейсу.
+permalink: /contact.html
+---
+
+<section class="hero contact-hero">
+  <div class="eyebrow">Обратная связь</div>
+  <h1>Сообщить о проблеме</h1>
+  <p class="lead">
+    Здесь можно передать сведения о проблеме территории, предложить уточнение
+    или дополнить уже опубликованный кейс. Материалы не публикуются автоматически:
+    перед размещением они проверяются и приводятся к формату архива Tarpen.
+  </p>
+</section>
+
+<section class="section contact-layout">
+  <div class="card contact-card">
+    <h2>Передать информацию</h2>
+    <p class="section-note">
+      Чем точнее указаны место, фактическое состояние и дата наблюдения,
+      тем проще проверить информацию и использовать её в архиве.
+    </p>
+
+    {% if site.formspree_endpoint and site.formspree_endpoint != "" %}
+      <form class="feedback-form" action="{{ site.formspree_endpoint | escape }}" method="post">
+        <input type="hidden" name="subject" value="Tarpen — новое сообщение: {{ '{{' }} submission_type {{ '}}' }}">
+        <input type="text" name="_gotcha" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="form-field">
+          <label for="submission_type">Тип сообщения <span aria-hidden="true">*</span></label>
+          <select id="submission_type" name="submission_type" required>
+            <option value="" selected disabled>Выберите вариант</option>
+            <option value="Новая проблема">Новая проблема</option>
+            <option value="Уточнение к опубликованному кейсу">Уточнение к опубликованному кейсу</option>
+            <option value="Дополнительные материалы">Дополнительные материалы</option>
+            <option value="Исправление фактической ошибки">Исправление фактической ошибки</option>
+            <option value="Другое">Другое</option>
+          </select>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="settlement">Населённый пункт <span aria-hidden="true">*</span></label>
+            <input id="settlement" name="settlement" type="text" autocomplete="address-level2" required>
+          </div>
+
+          <div class="form-field">
+            <label for="location">Адрес или ориентир <span aria-hidden="true">*</span></label>
+            <input id="location" name="location" type="text" autocomplete="street-address" required>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="observed_at">Когда вы это наблюдали</label>
+          <input id="observed_at" name="observed_at" type="date">
+        </div>
+
+        <div class="form-field">
+          <label for="message">Что произошло <span aria-hidden="true">*</span></label>
+          <textarea id="message" name="message" rows="8" required
+                    placeholder="Опишите только наблюдаемые факты: что именно произошло, где и в каком состоянии объект находится сейчас."></textarea>
+          <p class="field-hint">Если известны даты предыдущих обращений или работ — укажите их здесь же.</p>
+        </div>
+
+        <div class="form-field">
+          <label for="materials">Ссылки на фото, видео или документы</label>
+          <textarea id="materials" name="materials" rows="3"
+                    placeholder="Например: ссылка на облачную папку, фото или документ"></textarea>
+          <p class="field-hint">Не отправляйте через публичные ссылки документы с паспортными данными, адресами проживания, телефонами и другой лишней персональной информацией.</p>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="name">Имя</label>
+            <input id="name" name="name" type="text" autocomplete="name">
+          </div>
+
+          <div class="form-field">
+            <label for="email">Email для связи</label>
+            <input id="email" name="email" type="email" autocomplete="email">
+          </div>
+        </div>
+
+        <label class="form-consent">
+          <input type="checkbox" name="consent" value="yes" required>
+          <span>
+            Я понимаю, что сообщение поступит автору Tarpen через сервис Formspree.
+            Переданные сведения будут использованы для проверки сообщения и ведения общественного архива.
+          </span>
+        </label>
+
+        <div class="form-actions">
+          <button class="button" type="submit">Отправить сообщение</button>
+        </div>
+      </form>
+    {% else %}
+      <div class="notice">
+        <strong>Форма подготовлена, но ещё не подключена к Formspree.</strong>
+        После добавления персонального Formspree endpoint она станет доступна автоматически.
+      </div>
+    {% endif %}
+  </div>
+
+  <aside class="card contact-info">
+    <h2>Что важно знать</h2>
+    <ul class="principle-list">
+      <li><strong>Это не официальное обращение.</strong><br>Отправка формы в Tarpen не заменяет обращение в администрацию, ведомство, полицию, прокуратуру или экстренные службы.</li>
+      <li><strong>Публикация не автоматическая.</strong><br>Сообщение сначала проверяется. Автор может уточнить факты или отказаться от публикации, если их нельзя надёжно подтвердить.</li>
+      <li><strong>Факты важнее оценок.</strong><br>Лучше указать конкретное место, дату, наблюдаемое состояние и приложить подтверждающие материалы.</li>
+      <li><strong>Минимум персональных данных.</strong><br>Не передавайте сведения о третьих лицах, которые не нужны для описания проблемы.</li>
+    </ul>
+  </aside>
+</section>
