@@ -1,10 +1,14 @@
 title: Tarpen
-description: Общественный архив состояния территории
+description: Tarpen — общественный архив состояния инфраструктуры и территории посёлка Тушино и других населённых пунктов Калининградской области.
 url: "https://www.tarpen.ru"
 baseurl: ""
 
 lang: ru
 timezone: Europe/Kaliningrad
+
+author:
+  name: Дмитрий Климов
+  url: /author.html
 
 # Public feedback form. Paste the full Formspree endpoint here,
 # for example: https://formspree.io/f/xxxxxxxx
