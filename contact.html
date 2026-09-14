@@ -25,7 +25,7 @@ permalink: /contact.html
 
     {% if site.formspree_endpoint and site.formspree_endpoint != "" %}
       <form class="feedback-form" action="{{ site.formspree_endpoint | escape }}" method="post">
-        <input type="hidden" name="subject" value="Tarpen — новое сообщение: {{ '{{' }} submission_type {{ '}}' }}">
+        <input type="hidden" name="subject" value="Tarpen — новое сообщение">
         <input type="text" name="_gotcha" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
 
         <div class="form-field">
