@@ -33,7 +33,22 @@ findings:
 
 evidence:
   archive_url: https://drive.google.com/drive/folders/1coon_3wsl-hN7hZKWiSsKvr3cZ4yy1JZ?usp=sharing
-  photos: []
+  photos:
+    - src: /img/road-access/photo-1.jpg
+      alt: Общий вид участка у дома №1 и открытой траншеи
+      caption: Фото 1 — общий вид участка у дома №1, где проходит открытая траншея.
+
+    - src: /img/road-access/photo-2.jpg
+      alt: Траншея и бетонные элементы на участке
+      caption: Фото 2 — открытая траншея и находящиеся рядом бетонные элементы.
+
+    - src: /img/road-access/photo-3.jpg
+      alt: Общий вид траншеи между участками территории
+      caption: Фото 3 — общий вид незасыпанной траншеи на участке территории.
+
+    - src: /img/road-access/photo-4.jpg
+      alt: Открытая траншея с водой
+      caption: Фото 4 — состояние открытой траншеи на момент фиксации.
 
 interactions:
   - id: appeal-001
