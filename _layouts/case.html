@@ -34,7 +34,7 @@ layout: default
     <div class="photo-grid">
       {% for photo in page.evidence.photos %}
       <figure>
-        <a href="{{ photo.src }}" target="_blank"><img src="{{ photo.src }}" alt="{{ photo.alt | escape }}" loading="lazy"></a>
+        <a href="{{ photo.src }}" target="_blank"><img src="{{ photo.src }}" alt="{{ photo.alt | escape }}" loading="lazy" decoding="async"></a>
         <figcaption>{{ photo.caption }}</figcaption>
       </figure>
       {% endfor %}
@@ -106,7 +106,7 @@ layout: default
           <div class="photo-grid result-photos">
             {% for photo in observation.photos %}
               <figure>
-                <a href="{{ photo.src }}" target="_blank"><img src="{{ photo.src }}" alt="{{ photo.alt | default: photo.caption | escape }}" loading="lazy"></a>
+                <a href="{{ photo.src }}" target="_blank"><img src="{{ photo.src }}" alt="{{ photo.alt | default: photo.caption | escape }}" loading="lazy" decoding="async"></a>
                 <figcaption>{{ photo.caption }}</figcaption>
               </figure>
             {% endfor %}
