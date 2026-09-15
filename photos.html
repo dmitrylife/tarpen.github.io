@@ -72,7 +72,7 @@
               <div class="photo-grid">
                 {% for photo in case.evidence.photos %}
                   <figure>
-                    <img src="{{ photo.src }}" alt="{{ photo.alt | escape }}" loading="lazy">
+                    <img src="{{ photo.src }}" alt="{{ photo.alt | escape }}" loading="lazy" decoding="async">
                     {% if photo.caption %}<figcaption>{{ photo.caption }}</figcaption>{% endif %}
                   </figure>
                 {% endfor %}
@@ -95,7 +95,7 @@
                     <div class="photo-grid result-photos">
                       {% for photo in observation.photos %}
                         <figure>
-                          <img src="{{ photo.src }}" alt="{{ photo.alt | escape }}" loading="lazy">
+                          <img src="{{ photo.src }}" alt="{{ photo.alt | escape }}" loading="lazy" decoding="async">
                           {% if photo.caption %}<figcaption>{{ photo.caption }}</figcaption>{% endif %}
                         </figure>
                       {% endfor %}
