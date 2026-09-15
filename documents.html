@@ -1,118 +1,84 @@
 ---
+layout: default
+title: Документы
 ---
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Документы — Tarpen</title>
-  <link rel="stylesheet" href="/style.css">
-</head>
-<body>
-<div class="page">
-  <header>
-    <a class="brand" href="/">
-      <div class="brand-title">Tarpen</div>
-      <div class="brand-subtitle">общественный архив посёлка Тушино</div>
-    </a>
-    <nav><a href="/">Главная</a></nav>
-  </header>
 
-  <main>
-    <section class="hero">
-      <div class="eyebrow">Документы</div>
-      <h1>Обращения и материалы</h1>
-      <p class="lead">
-        Документы формируются автоматически из карточек зафиксированных вопросов:
-        обращения, описи вложения и подтверждения отправки или регистрации.
+<section class="hero">
+  <div class="eyebrow">Документы</div>
+  <h1>Обращения и материалы</h1>
+  <p class="lead">
+    Документы формируются автоматически из карточек зафиксированных вопросов:
+    обращения, описи вложения и подтверждения отправки или регистрации.
+  </p>
+</section>
+
+{% assign cases = site.cases | sort: "classification.order" %}
+{% assign interaction_count = 0 %}
+{% for case in cases %}
+  {% if case.interactions %}
+    {% assign interaction_count = interaction_count | plus: case.interactions.size %}
+  {% endif %}
+{% endfor %}
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>Обращения</h2>
+      <p class="section-note">
+        Статус документа определяется по данным конкретного взаимодействия и не подменяет фактическое состояние проблемы.
       </p>
-    </section>
+    </div>
+  </div>
 
-    {% assign cases = site.cases | sort: "classification.order" %}
-    {% assign interaction_count = 0 %}
-    {% for case in cases %}
-      {% if case.interactions %}
-        {% assign interaction_count = interaction_count | plus: case.interactions.size %}
-      {% endif %}
-    {% endfor %}
+  {% if interaction_count > 0 %}
+    <div class="interaction-list">
+      {% for case in cases %}
+        {% if case.interactions %}
+          {% for item in case.interactions %}
+            <article class="card interaction-card">
+              {% if item.responses and item.responses.size > 0 %}
+                <span class="status ok">Получен официальный ответ</span>
+              {% elsif item.confirmation and item.confirmation.value %}
+                {% if item.channel == 'gosuslugi' %}
+                  <span class="status ok">Зарегистрировано</span>
+                {% else %}
+                  <span class="status ok">Отправлено</span>
+                {% endif %}
+              {% elsif item.submitted %}
+                <span class="status ok">Отправлено</span>
+              {% elsif item.inventory_url %}
+                <span class="status">Подготовлено к отправке</span>
+              {% elsif item.document_url %}
+                <span class="status">Обращение подготовлено</span>
+              {% else %}
+                <span class="status">Зафиксировано</span>
+              {% endif %}
 
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <h2>Обращения</h2>
-          <p class="section-note">
-            Статус документа определяется по данным конкретного взаимодействия и не подменяет фактическое состояние проблемы.
-          </p>
-        </div>
-      </div>
+              <h3>{{ item.title | default: case.title }}</h3>
+              <p>
+                <strong>{{ case.location.address }}</strong>
+                {% if item.authority %} · {{ item.authority }}{% endif %}
+              </p>
 
-      {% if interaction_count > 0 %}
-        <div class="interaction-list">
-          {% for case in cases %}
-            {% if case.interactions %}
-              {% for item in case.interactions %}
-                <article class="card interaction-card">
-                  {% if item.responses and item.responses.size > 0 %}
-                    <span class="status ok">Получен официальный ответ</span>
-                  {% elsif item.confirmation and item.confirmation.value %}
-                    {% if item.channel == 'gosuslugi' %}
-                      <span class="status ok">Зарегистрировано</span>
-                    {% else %}
-                      <span class="status ok">Отправлено</span>
-                    {% endif %}
-                  {% elsif item.submitted %}
-                    <span class="status ok">Отправлено</span>
-                  {% elsif item.inventory_url %}
-                    <span class="status">Подготовлено к отправке</span>
-                  {% elsif item.document_url %}
-                    <span class="status">Обращение подготовлено</span>
-                  {% else %}
-                    <span class="status">Зафиксировано</span>
-                  {% endif %}
+              <div class="document-links">
+                {% if item.document_url %}<a href="{{ item.document_url }}" target="_blank" rel="noopener">Открыть обращение</a>{% endif %}
+                {% if item.inventory_url %}<a href="{{ item.inventory_url }}" target="_blank" rel="noopener">Открыть опись</a>{% endif %}
+                {% if item.confirmation and item.confirmation.value %}
+                  <span>{% if item.confirmation.type == 'tracking' %}Трек-номер{% elsif item.confirmation.type == 'registration' %}Регистрационный номер{% else %}Подтверждение{% endif %}: {{ item.confirmation.value }}</span>
+                {% endif %}
+              </div>
 
-                  <h3>{{ item.title | default: case.title }}</h3>
-                  <p>
-                    <strong>{{ case.location.address }}</strong>
-                    {% if item.authority %} · {{ item.authority }}{% endif %}
-                  </p>
-
-                  <div class="document-links">
-                    {% if item.document_url %}
-                      <a href="{{ item.document_url }}" target="_blank" rel="noopener">Открыть обращение</a>
-                    {% endif %}
-                    {% if item.inventory_url %}
-                      <a href="{{ item.inventory_url }}" target="_blank" rel="noopener">Открыть опись</a>
-                    {% endif %}
-                    {% if item.confirmation and item.confirmation.value %}
-                      <span>
-                        {% if item.confirmation.type == 'tracking' %}Трек-номер{% elsif item.confirmation.type == 'registration' %}Регистрационный номер{% else %}Подтверждение{% endif %}:
-                        {{ item.confirmation.value }}
-                      </span>
-                    {% endif %}
-                  </div>
-
-                  {% if item.submitted %}
-                    <p>Направлено: {{ item.submitted | date: "%d.%m.%Y" }}</p>
-                  {% elsif item.created %}
-                    <p>Подготовлено: {{ item.created | date: "%d.%m.%Y" }}</p>
-                  {% endif %}
-
-                  <p><a href="{{ case.url }}">Открыть карточку вопроса</a></p>
-                </article>
-              {% endfor %}
-            {% endif %}
+              {% if item.submitted %}<p>Направлено: {{ item.submitted | date: "%d.%m.%Y" }}</p>{% elsif item.created %}<p>Подготовлено: {{ item.created | date: "%d.%m.%Y" }}</p>{% endif %}
+              <p><a href="{{ case.url }}">Открыть карточку вопроса</a></p>
+            </article>
           {% endfor %}
-        </div>
-      {% else %}
-        <div class="notice">
-          <h2>Документы пока не добавлены</h2>
-          <p>После добавления взаимодействий в карточки вопросов они автоматически появятся в этом разделе.</p>
-        </div>
-      {% endif %}
-    </section>
-  </main>
-
-  <footer><p>Tarpen — общественный архив состояния инфраструктуры</p></footer>
-</div>
-</body>
-</html>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="notice">
+      <h2>Документы пока не добавлены</h2>
+      <p>После добавления взаимодействий в карточки вопросов они автоматически появятся в этом разделе.</p>
+    </div>
+  {% endif %}
+</section>
