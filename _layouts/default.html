@@ -27,7 +27,7 @@
   {% include metrika.html %}
 </head>
 
-<body>
+<body id="top">
   <div class="page">
 
     {% include header.html %}
@@ -39,5 +39,21 @@
     {% include footer.html %}
 
   </div>
+
+  <a class="back-to-top" href="#top" aria-label="Наверх" title="Наверх">↑</a>
+
+  <script>
+    (() => {
+      const button = document.querySelector('.back-to-top');
+      if (!button) return;
+
+      const updateBackToTop = () => {
+        button.classList.toggle('is-visible', window.scrollY > 480);
+      };
+
+      updateBackToTop();
+      window.addEventListener('scroll', updateBackToTop, { passive: true });
+    })();
+  </script>
 </body>
 </html>
