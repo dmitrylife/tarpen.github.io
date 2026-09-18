@@ -7,10 +7,6 @@ location:
   municipality: Неманский муниципальный округ
   region: Калининградская область
   address: ул. Речная, дом №1
-  coordinates:
-    lat: 54.9938753
-    lon: 22.1848307
-
 classification:
   category: infrastructure
   featured: true
