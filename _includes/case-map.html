@@ -41,8 +41,20 @@
   }
 
   const map = L.map(mapElement, {
-    scrollWheelZoom: false
+    scrollWheelZoom: false,
+    touchZoom: false,
+    doubleClickZoom: false,
+    boxZoom: false,
+    keyboard: false,
+    dragging: true,
+    zoomControl: true
   });
+
+  // Leaflet can re-enable handlers in some environments/plugins; keep
+  // page scrolling independent from the map unless the user taps +/-.
+  map.scrollWheelZoom.disable();
+  map.touchZoom.disable();
+  map.doubleClickZoom.disable();
 
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
