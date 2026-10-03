@@ -1,0 +1,129 @@
+{% assign pulse_total = 0 %}
+{% assign pulse_resolved = 0 %}
+{% assign pulse_open = 0 %}
+{% assign pulse_monitoring = 0 %}
+{% assign pulse_interactions = 0 %}
+{% assign pulse_responses = 0 %}
+{% assign pulse_observed = 0 %}
+{% assign pulse_infrastructure = 0 %}
+{% assign pulse_environment = 0 %}
+{% assign pulse_latest_ts = 0 %}
+{% assign pulse_latest_date = nil %}
+
+{% for case in site.cases %}
+  {% if case.location.settlement == include.settlement %}
+    {% assign pulse_total = pulse_total | plus: 1 %}
+
+    {% case case.case_status.code %}
+      {% when 'resolved' %}{% assign pulse_resolved = pulse_resolved | plus: 1 %}
+      {% when 'monitoring' %}{% assign pulse_monitoring = pulse_monitoring | plus: 1 %}
+      {% else %}{% assign pulse_open = pulse_open | plus: 1 %}
+    {% endcase %}
+
+    {% if case.classification.category == 'infrastructure' %}
+      {% assign pulse_infrastructure = pulse_infrastructure | plus: 1 %}
+    {% elsif case.classification.category == 'environment' %}
+      {% assign pulse_environment = pulse_environment | plus: 1 %}
+    {% endif %}
+
+    {% if case.interactions %}
+      {% assign interaction_count = case.interactions | size %}
+      {% assign pulse_interactions = pulse_interactions | plus: interaction_count %}
+      {% for interaction in case.interactions %}
+        {% if interaction.responses %}
+          {% assign response_count = interaction.responses | size %}
+          {% assign pulse_responses = pulse_responses | plus: response_count %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+
+    {% if case.observations and case.observations != empty %}
+      {% assign pulse_observed = pulse_observed | plus: 1 %}
+      {% for observation in case.observations %}
+        {% assign observation_ts = observation.date | date: '%s' | plus: 0 %}
+        {% if observation_ts > pulse_latest_ts %}
+          {% assign pulse_latest_ts = observation_ts %}
+          {% assign pulse_latest_date = observation.date %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+
+    {% if case.case_status.updated %}
+      {% assign status_ts = case.case_status.updated | date: '%s' | plus: 0 %}
+      {% if status_ts > pulse_latest_ts %}
+        {% assign pulse_latest_ts = status_ts %}
+        {% assign pulse_latest_date = case.case_status.updated %}
+      {% endif %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% if pulse_total > 0 %}
+<section class="territory-pulse{% if include.compact %} territory-pulse--compact{% endif %}" aria-labelledby="territory-pulse-title">
+  <div class="pulse-heading">
+    <div>
+      <div class="pulse-kicker">Tarpen · состояние территории</div>
+      <h2 id="territory-pulse-title">{{ include.settlement }}</h2>
+      {% if include.compact %}
+        <p>Сводка строится автоматически по опубликованным кейсам и повторным наблюдениям.</p>
+      {% else %}
+        <p>Документальная сводка по опубликованным материалам Tarpen. Это не рейтинг территории: показатели отражают только вопросы, зафиксированные в архиве.</p>
+      {% endif %}
+    </div>
+    {% if pulse_latest_date %}
+      <div class="pulse-updated">
+        <span>Последняя фиксация</span>
+        <strong>{{ pulse_latest_date | date: '%d.%m.%Y' }}</strong>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="pulse-metrics" aria-label="Сводные показатели">
+    <div class="pulse-metric pulse-metric--total">
+      <strong>{{ pulse_total }}</strong>
+      <span>вопросов в архиве</span>
+    </div>
+    <div class="pulse-metric pulse-metric--resolved">
+      <strong>{{ pulse_resolved }}</strong>
+      <span>работы выполнены</span>
+    </div>
+    <div class="pulse-metric pulse-metric--open">
+      <strong>{{ pulse_open }}</strong>
+      <span>проблема сохраняется</span>
+    </div>
+    <div class="pulse-metric pulse-metric--monitoring">
+      <strong>{{ pulse_monitoring }}</strong>
+      <span>под наблюдением</span>
+    </div>
+  </div>
+
+  {% unless include.compact %}
+  <div class="pulse-details">
+    <div class="pulse-detail">
+      <span>Повторно проверено</span>
+      <strong>{{ pulse_observed }} из {{ pulse_total }}</strong>
+    </div>
+    <div class="pulse-detail">
+      <span>Взаимодействия / обращения</span>
+      <strong>{{ pulse_interactions }}</strong>
+    </div>
+    <div class="pulse-detail">
+      <span>Ответы, опубликованные в архиве</span>
+      <strong>{{ pulse_responses }}</strong>
+    </div>
+    <div class="pulse-detail pulse-detail--categories">
+      <span>Темы</span>
+      <strong>
+        {% if pulse_infrastructure > 0 %}Инфраструктура · {{ pulse_infrastructure }}{% endif %}
+        {% if pulse_infrastructure > 0 and pulse_environment > 0 %}<br>{% endif %}
+        {% if pulse_environment > 0 %}Природная среда · {{ pulse_environment }}{% endif %}
+      </strong>
+    </div>
+  </div>
+  {% endunless %}
+
+  {% if include.compact %}
+    <div class="pulse-action"><a href="/places/tushino/">Открыть паспорт территории →</a></div>
+  {% endif %}
+</section>
+{% endif %}
