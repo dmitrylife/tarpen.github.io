@@ -1,0 +1,61 @@
+{% assign comparison_count = 0 %}
+{% for case in site.cases %}
+  {% if case.location.settlement == include.settlement and case.evidence.photos and case.observations %}
+    {% assign latest_observation = case.observations | last %}
+    {% if latest_observation.photos and latest_observation.photos != empty %}
+      {% assign comparison_count = comparison_count | plus: 1 %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% if comparison_count > 0 %}
+<section class="section territory-changes" aria-labelledby="territory-changes-title">
+  <div class="section-head">
+    <div>
+      <div class="pulse-kicker">Динамика наблюдений</div>
+      <h2 id="territory-changes-title">Исходная и повторная фиксация</h2>
+      <p class="section-note">Фотографии показывают состояние территории в разные даты. Они не используются как утверждение о причинах изменений или их исполнителе.</p>
+    </div>
+  </div>
+
+  <div class="change-list">
+    {% assign sorted_cases = site.cases | sort: 'classification.order' %}
+    {% for case in sorted_cases %}
+      {% if case.location.settlement == include.settlement and case.evidence.photos and case.observations %}
+        {% assign latest_observation = case.observations | last %}
+        {% if latest_observation.photos and latest_observation.photos != empty %}
+          {% assign initial_photo = case.evidence.photos | first %}
+          {% assign result_photo = latest_observation.photos | first %}
+          <article class="change-card">
+            <div class="change-card-head">
+              <div>
+                <span class="status{% if case.case_status.code == 'resolved' %} ok{% endif %}">{{ case.case_status.label }}</span>
+                <h3>{{ case.title }}</h3>
+              </div>
+              <a href="{{ case.url }}">Весь кейс →</a>
+            </div>
+
+            <div class="change-photos">
+              <figure>
+                <div class="change-photo-label">Исходная фиксация</div>
+                <img src="{{ initial_photo.src }}" alt="{{ initial_photo.alt }}" loading="lazy" decoding="async">
+                <figcaption>{{ initial_photo.caption }}</figcaption>
+              </figure>
+              <figure>
+                <div class="change-photo-label change-photo-label--after">Повторная фиксация · {{ latest_observation.date | date: '%d.%m.%Y' }}</div>
+                <img src="{{ result_photo.src }}" alt="{{ result_photo.alt }}" loading="lazy" decoding="async">
+                <figcaption>{{ result_photo.caption }}</figcaption>
+              </figure>
+            </div>
+
+            <div class="change-summary">
+              <strong>{{ latest_observation.title }}</strong>
+              <p>{{ latest_observation.summary }}</p>
+            </div>
+          </article>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
