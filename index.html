@@ -51,20 +51,6 @@ description: Tarpen — общественный архив состояния �
       <div class="timeline-item">
         <div class="date">{{ event.date | date: "%d.%m.%Y" }}</div>
         <div>{{ event.text }}</div>
-        {% if event.interaction_id %}
-          {% for source_case in site.cases %}
-            {% assign linked_interaction = source_case.interactions | where: "id", event.interaction_id | first %}
-            {% if linked_interaction %}
-              <div class="document-links">
-                {% if linked_interaction.document_url %}<a href="{{ linked_interaction.document_url | relative_url }}" target="_blank" rel="noopener noreferrer">Обращение (PDF)</a>{% endif %}
-                {% if linked_interaction.inventory_url %}<a href="{{ linked_interaction.inventory_url | relative_url }}" target="_blank" rel="noopener noreferrer">Опись вложения (PDF)</a>{% endif %}
-              </div>
-            {% endif %}
-          {% endfor %}
-        {% endif %}
-        {% if event.document_url %}
-          <div class="document-links"><a href="{{ event.document_url | relative_url }}" target="_blank" rel="noopener noreferrer">{{ event.document_label | default: "Открыть документ" }}</a></div>
-        {% endif %}
       </div>
     {% endfor %}
   </div>
