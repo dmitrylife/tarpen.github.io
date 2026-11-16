@@ -16,6 +16,7 @@
   <nav aria-label="Основная навигация">
     <a href="/"{% if current_url == '/' %} class="active" aria-current="page"{% endif %}>Главная</a>
     <a href="/places/"{% if current_url contains '/places/' or cases_active %} class="active" aria-current="page"{% endif %}>Территории</a>
+    <a href="/history/"{% if current_url contains '/history/' %} class="active" aria-current="page"{% endif %}>История</a>
     <a href="/documents.html"{% if current_url == '/documents.html' %} class="active" aria-current="page"{% endif %}>Документы</a>
     <a href="/photos.html"{% if current_url == '/photos.html' %} class="active" aria-current="page"{% endif %}>Фото и видео</a>
     <a href="/responses.html"{% if current_url == '/responses.html' %} class="active" aria-current="page"{% endif %}>Ответы</a>
